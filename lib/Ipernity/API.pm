@@ -3,8 +3,8 @@
 # Contact: doomy [at] dokuleser [dot] org
 # Copyright 2008 Winfried Neessen
 #
-# $Id: API.pm 14 2010-09-30 13:57:09Z doomy $
-# Last modified: [ 2010-09-30 15:54:48 ]
+# $Id: API.pm 18 2010-12-05 13:34:25Z doomy $
+# Last modified: [ 2010-12-05 14:32:21 ]
 
 ### Module definitions {{{
 package Ipernity::API;
@@ -17,7 +17,7 @@ use LWP::UserAgent;
 use XML::Simple;
 
 our @ISA = qw(LWP::UserAgent);
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 # }}}
 
 ### Module constructor / new() {{{
@@ -174,7 +174,7 @@ sub fetchfrob
 	);
 
 	### Return the frob
-	return $response->{auth}->{frob}->{content};
+	return $response->{auth}->[0]->{frob}->[0]->{content};
 }
 # }}}
 
@@ -244,13 +244,13 @@ sub authtoken
 	);
 
 	### Let's safe the auth token and user information
-	$self->{auth}->{authtoken} = $response->{auth}->{token}->{content};
-	$self->{auth}->{realname}  = $response->{auth}->{user}->{realname};
-	$self->{auth}->{userid}    = $response->{auth}->{user}->{user_id};
-	$self->{auth}->{username}  = $response->{auth}->{user}->{username};
+	$self->{auth}->{authtoken} = $response->{auth}->[0]->{token}->[0]->{content};
+	$self->{auth}->{realname}  = $response->{auth}->[0]->{user}->[0]->{realname};
+	$self->{auth}->{userid}    = $response->{auth}->[0]->{user}->[0]->{user_id};
+	$self->{auth}->{username}  = $response->{auth}->[0]->{user}->[0]->{username};
 
 	### Return the AuthToken
-	return $response->{auth}->{token}->{content};
+	return $response->{auth}->[0]->{token}->[0]->{content};
 }
 # }}}
 
